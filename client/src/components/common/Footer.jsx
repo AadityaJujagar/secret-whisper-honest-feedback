@@ -1,7 +1,9 @@
 export const Footer = () => {
   return (
-    <footer className="w-full text-center py-4 border-t text-sm text-gray-500">
-      © {new Date().getFullYear()} Secret Whisper. All rights reserved.
+    <footer className="py-8 border-t border-border/40 mt-auto">
+      <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+        © {new Date().getFullYear()} Secret Whisper. All rights reserved.
+      </div>
     </footer>
   );
 };

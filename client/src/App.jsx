@@ -1,8 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { Login } from "./pages/Login";
-import { Signup } from "./pages/Signup";
 import { Profile } from "./pages/Profile";
+import { NotFound } from "./pages/NotFound";
+import { About } from "./pages/About";
+import { AuthPage } from "./pages/Auth";
+import { PlansPage } from "./pages/PaidPlans";
 import { Navbar } from "./components/common/Navbar";
 import { Footer } from "./components/common/Footer";
 import ProtectedRoutes from "./components/common/ProtectedRoutes";
@@ -15,8 +17,10 @@ export const App = () => {
         <Routes>
           {/* public routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/plans" element={<PlansPage />} />
+          <Route path="*" element={<NotFound />} />
 
           {/* protected routes */}
           <Route
@@ -29,7 +33,7 @@ export const App = () => {
           />
         </Routes>
       </main>
-      <Footer /> 
+      <Footer />
     </div>
   );
 };

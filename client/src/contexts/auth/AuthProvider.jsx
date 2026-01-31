@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
       await apiConnector("POST", authEndpoints.LOGOUT_API);
       setUser(null);
       toast.success("Logged out");
-      navigate("/login");
+      navigate("/auth");
     } catch (err) {
       console.log(err);
       toast.error("Logout failed");

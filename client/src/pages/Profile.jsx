@@ -113,83 +113,112 @@ export const Profile = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <div className="flex items-center gap-4 mb-6">
-        <img
-          src={profileOwner?.image}
-          alt="profile"
-          className="w-20 h-20 rounded-full object-cover"
-        />
-
-        <div>
-          {isEditing ? (
-            <input
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              className="border px-2 py-1 rounded"
-            />
-          ) : (
-            <h2 className="text-xl font-bold">
-              {loadingProfile ? "Loading..." : profileOwner?.name}
-            </h2>
-          )}
-
-          {isOwnProfile && <p className="text-gray-600">{user.email}</p>}
-        </div>
-      </div>
-
-      {isOwnProfile && (
-        <div className="flex gap-3 mb-6">
-          {!isEditing ? (
-            <>
-              <button
-                onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded"
-              >
-                Edit Profile
-              </button>
-
-              <button
-                onClick={handleShareProfile}
-                className="px-4 py-2 bg-green-600 text-white rounded"
-              >
-                Share Profile
-              </button>
-            </>
-          ) : (
-            <>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setNewImage(e.target.files[0])}
+    <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <aside className="md:col-span-1">
+          <div className="sticky top-24 space-y-6">
+            <div className="border border-border/50 rounded-2xl p-6 bg-card text-center space-y-4">
+              <img
+                src={profileOwner?.image}
+                alt="profile"
+                className="h-32 w-32 rounded-full object-cover mx-auto border-4 border-background shadow-lg"
               />
 
-              <button
-                onClick={handleProfileUpdate}
-                disabled={updating}
-                className="px-4 py-2 bg-green-600 text-white rounded"
-              >
-                {updating ? "Saving..." : "Save"}
-              </button>
+              {isEditing ? (
+                <input
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="w-full text-center text-xl font-bold border-b border-border bg-transparent focus:outline-none"
+                />
+              ) : (
+                <h2 className="text-2xl font-bold">
+                  {loadingProfile ? "Loading..." : profileOwner?.name}
+                </h2>
+              )}
 
-              <button
-                onClick={() => setIsEditing(false)}
-                className="px-4 py-2 bg-gray-400 text-white rounded"
-              >
-                Cancel
-              </button>
-            </>
-          )}
-        </div>
-      )}
+              {isOwnProfile && (
+                <p className="text-sm text-muted-foreground">{user.email}</p>
+              )}
+            </div>
 
-      {!isOwnProfile && <CommentBox profileOwnerId={profileUserId} />}
+            {isOwnProfile && (
+              <div className="flex flex-col gap-2">
+                {!isEditing ? (
+                  <>
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="w-full py-2 rounded-full bg-primary text-primary-foreground"
+                    >
+                      Edit Profile
+                    </button>
 
-      <CommentList
-        comments={comments}
-        loading={loading}
-        isOwnProfile={isOwnProfile}
-      />
+                    <button
+                      onClick={handleShareProfile}
+                      className="w-full py-2 rounded-full border border-border"
+                    >
+                      Share Profile
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setNewImage(e.target.files[0])}
+                    />
+
+                    <button
+                      onClick={handleProfileUpdate}
+                      disabled={updating}
+                      className="w-full py-2 rounded-full bg-primary text-primary-foreground"
+                    >
+                      {updating ? "Saving..." : "Save"}
+                    </button>
+
+                    <button
+                      onClick={() => setIsEditing(false)}
+                      className="w-full py-2 rounded-full border"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+
+            {!isOwnProfile && <CommentBox profileOwnerId={profileUserId} />}
+          </div>
+        </aside>
+
+        <section className="md:col-span-2">
+          <div className="border border-border/50 rounded-2xl bg-card h-[75vh] flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+              <h3 className="text-lg font-bold">Feedback</h3>
+              <span className="text-sm text-muted-foreground">
+                {comments.length} comments
+              </span>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+              {loading ? (
+                <p className="text-center text-muted-foreground">
+                  Loading feedback...
+                </p>
+              ) : comments.length === 0 ? (
+                <p className="text-center text-muted-foreground italic">
+                  No feedback yet. Be the first!
+                </p>
+              ) : (
+                <CommentList
+                  comments={comments}
+                  loading={loading}
+                  isOwnProfile={isOwnProfile}
+                />
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

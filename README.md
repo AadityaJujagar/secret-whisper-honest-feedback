@@ -254,7 +254,7 @@ For issues and feature requests, please contact the development team.
 
 ---
 
-**Built with ❤️ using the MERN stack**
+**Built with ❤️ by Aaditya Jujagar with DMC Pvt. Ltd.**
 
 ---
 

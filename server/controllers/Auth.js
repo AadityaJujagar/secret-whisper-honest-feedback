@@ -29,22 +29,36 @@ exports.signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({
+    const user = await User.create({
       name,
       email,
       password: hashedPassword,
       image: `https://api.dicebear.com/9.x/initials/svg?seed=${name}`,
     });
-    const savedUser = await user.save();
 
-    const { password: _, ...userData } = savedUser._doc;
-    res.status(201).json({
+    const token = JWT.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "48h" },
+    );
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+    };
+
+    const userObj = user.toObject();
+    userObj.password = undefined;
+
+    return res.status(201).cookie("token", token, cookieOptions).json({
       success: true,
-      userData,
-      message: "User is registered successfully.",
+      user: userObj,
+      message: "User registered successfully.",
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       success: false,
       message: "User registration failed, try again.",

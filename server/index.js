@@ -17,11 +17,31 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 const server = http.createServer(app);
 
+// robust CORS handling: allow explicit CLIENT_URL(s) or fallback to permissive for no-origin requests
+const clientEnv = process.env.CLIENT_URL || "";
+const allowedOrigins = clientEnv
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      // allow requests with no origin (like curl/postman/server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.length === 0) {
+        // no CLIENT_URL configured on environment: allow the request but log a warning
+        console.warn(
+          "Warning: CLIENT_URL not set — allowing CORS for origin:",
+          origin,
+        );
+        return callback(null, true);
+      }
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+      return callback(new Error("CORS policy: Origin not allowed"));
+    },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
 
@@ -36,8 +56,13 @@ app.use("/api/v1/profiles", profileRoutes);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST"],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.length === 0) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+      return callback(new Error("Socket CORS policy: Origin not allowed"));
+    },
+    methods: ["GET", "POST", "OPTIONS"],
     credentials: true,
   },
 });

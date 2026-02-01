@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const SignupForm = () => {
   const { signup } = useAuth();
@@ -8,13 +8,16 @@ export const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const location = useLocation();
-  const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const ok = await signup({ name, email, password, confirmPassword });
     if (ok) {
-      navigate("/auth", { state: location.state || undefined });
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      toast.success("Proceed for Login");
     }
   };
 

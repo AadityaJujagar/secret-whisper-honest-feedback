@@ -18,8 +18,6 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
       }
     } catch (err) {
-      // Suppress expected 401 Unauthorized when there's no session yet.
-      // Log other unexpected errors for debugging.
       if (err.response?.status && err.response.status !== 401) {
         console.error(err);
       }
@@ -66,6 +64,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       setUser(res.data.user);
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      }
       return true;
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
@@ -80,6 +81,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await apiConnector("POST", authEndpoints.LOGOUT_API);
       setUser(null);
+      localStorage.removeItem("token");
       toast.success("Logged out");
       navigate("/auth");
     } catch (err) {

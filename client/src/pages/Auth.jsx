@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { LoginForm } from "../components/common/LoginForm";
 import { SignupForm } from "../components/common/SignupForm";
 
 export const AuthPage = () => {
-  const [mode, setMode] = useState("login");
+  const [searchParams] = useSearchParams();
+  const modeParam = searchParams.get("mode") || "login";
+  const [mode, setMode] = useState(modeParam);
 
   return (
-    <div className="flex flex-col my-8 items-center justify-center bg-background px-4">
+    <div className="flex flex-col my-6 items-center justify-center bg-background px-4">
       <div className="w-full max-w-md border border-border/50 rounded-xl p-6 bg-card space-y-6">
-        <div className="flex items-center justify-center bg-background px-0">
+        <div className="flex items-center justify-center px-0">
           <div className="relative w-full flex rounded-full bg-muted py-1">
             <div
               className={`absolute top-1 h-[calc(100%-0.5rem)] w-1/2 rounded-full bg-background shadow transition-transform duration-300 ${
@@ -53,7 +56,7 @@ export const AuthPage = () => {
             <>
               Don't have an account?{" "}
               <button
-                onClick={() => setMode("register")}
+                onClick={() => setMode("signup")}
                 className="text-primary hover:underline font-medium"
               >
                 Sign up

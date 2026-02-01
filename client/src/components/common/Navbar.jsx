@@ -69,12 +69,12 @@ export const Navbar = () => {
 
             {!isAuthenticated ? (
               <>
-                <Link to="/auth">
+                <Link to="/auth?mode=login">
                   <div className="inline-flex items-center justify-center h-8 text-sm hover:border p-4 border rounded-md hover:text-slate-900 hover:bg-slate-50 transition bg-transparent">
                     Login
                   </div>
                 </Link>
-                <Link to="/auth">
+                <Link to="/auth?mode=signup">
                   <div className="inline-flex items-center justify-center h-8 px-2 text-sm rounded-md border-border hover:bg-indigo-400 transition bg-primary text-primary-foreground">
                     Get Started
                   </div>
@@ -153,10 +153,10 @@ export const Navbar = () => {
                 <div className="border-t border-border/30 my-1" />
                 {!isAuthenticated ? (
                   <>
-                    <Link to="/auth" onClick={() => setOpen(false)}>
+                    <Link to="/auth?mode=login" onClick={() => setOpen(false)}>
                       <div className="px-4 py-2 hover:bg-primary/5">Login</div>
                     </Link>
-                    <Link to="/auth" onClick={() => setOpen(false)}>
+                    <Link to="/auth?mode=signup" onClick={() => setOpen(false)}>
                       <div className="px-4 py-2 hover:bg-primary/5">
                         Get Started
                       </div>

@@ -11,7 +11,7 @@ export const Home = () => {
   };
 
   return (
-    <main className="flex flex-col py-12 items-center justify-center min-h-[80vh] text-center px-4">
+    <main className="flex flex-col py-4 items-center justify-center min-h-[80vh] text-center px-4">
       <section className="space-y-8 max-w-3xl">
         <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-medium text-sm">
           ✨ The best way to grow is to listen
@@ -35,14 +35,14 @@ export const Home = () => {
         >
           {!isAuthenticated && (
             <>
-              <Link to="/auth">
+              <Link to="/auth?mode=signup">
                 <div className="inline-flex items-center justify-center h-12 px-8 text-lg rounded-full border-2 border-border hover:bg-indigo-400 transition bg-primary text-primary-foreground">
                   Create Your Profile
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </div>
               </Link>
 
-              <Link to="/auth">
+              <Link to="/auth?mode=login">
                 <div className="inline-flex items-center justify-center h-12 px-8 text-lg rounded-full border-2 border-border hover:border-slate-300 hover:bg-muted transition">
                   Login
                 </div>

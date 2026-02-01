@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const rawBase = import.meta.env.VITE_APP_BASE_URL || window.location.origin;
+    const rawBase = import.meta.env.VITE_API_URL || window.location.origin;
     let socketUrl = rawBase;
     try {
       socketUrl = new URL(rawBase).origin;

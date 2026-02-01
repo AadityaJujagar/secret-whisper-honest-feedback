@@ -90,6 +90,8 @@ exports.login = async (req, res) => {
       const cookieOptions = {
         expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 3 days
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
         // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         // secure: process.env.NODE_ENV === "production",
       };
@@ -120,6 +122,8 @@ exports.logout = async (_req, res) => {
     const cookieOptions = {
       httpOnly: true,
       expires: new Date(0),
+      sameSite: "none",
+      secure: true,
       // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       // secure: process.env.NODE_ENV === "production",
     };

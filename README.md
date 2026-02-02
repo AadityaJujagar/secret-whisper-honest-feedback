@@ -1,4 +1,4 @@
-# Secret Whisper
+# TRUE FEEDBACK - SECRET WHISPER
 
 > A real-time, anonymous comment platform where users can share feedback, thoughts, and reactions on each other's profiles with complete control and transparency.
 
@@ -254,7 +254,7 @@ For issues and feature requests, please contact the development team.
 
 ---
 
-**Built with ❤️ by Aaditya Jujagar from Data Master Consulting.**
+**Built with ❤️ by Aaditya Jujagar & Data Master Consulting.**
 
 ---
 
